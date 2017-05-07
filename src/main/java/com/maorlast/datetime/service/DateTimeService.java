@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,20 +29,30 @@ public class DateTimeService {
         LOGGER.info("Processing date: {}", date);
     }
 
-    public void processDateAndTime(LocalDateTime dateAndTime) {
+    public void processDateAndTime(LocalDateTime localDateTime) {
         Date input = new Date();
-        Instant instant = dateAndTime.toInstant(UTC);
-        Date output = Date.from(instant);
-        LOGGER.info("Processing datetime: {}", output);
+        Instant instant = localDateTime.toInstant(UTC);
+        Date date = Date.from(instant);
+        LOGGER.info("Processing datetime: {}", date);
 
         // Original Code
-        Date date = java.sql.Date.valueOf(dateAndTime.toLocalDate());
-        DateTimeModel dateTimeModel = new DateTimeModel(dateAndTime, output);
+        //Date date = java.sql.Date.valueOf(dateAndTime.toLocalDate());
+
+        // Create ZonedDateTime
+        ZoneId zoneId = ZoneId.of( "America/Montreal" );
+        ZonedDateTime zdt = ZonedDateTime.ofInstant( instant , zoneId );
+
+        // Create java.sql.Date
+        java.sql.Date javaDate = java.sql.Date.valueOf( localDateTime.toLocalDate() );
+
+        DateTimeModel dateTimeModel = new DateTimeModel(localDateTime, date, zdt, javaDate);
+        //DateTimeModel dateTimeModel = new DateTimeModel(localDateTime, date, zdt);
 
         // I want to convert the Date and Time
         // From java.time.LocalDateTime to java.util.Date
         //Date date = java.sql.Date.valueOf(dateAndTime.toLocalDate());
 
+        // Save to Database
         addDateTimeModel(dateTimeModel);
     }
 

@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 /**
@@ -17,15 +18,19 @@ public class DateTimeModel {
     @GeneratedValue(strategy=GenerationType.AUTO)
     long id;
     private LocalDateTime localDateTime;
+    private ZonedDateTime zonedDateTime;
     private Date date;
+    private java.sql.Date sqlDate;
 
     public DateTimeModel() {
 
     }
 
-    public DateTimeModel(LocalDateTime localDateTime, Date date) {
+    public DateTimeModel(LocalDateTime localDateTime, Date date, ZonedDateTime zonedDateTime, java.sql.Date javaDate) {
         this.localDateTime = localDateTime;
         this.date = date;
+        this.zonedDateTime = zonedDateTime;
+        this.sqlDate = javaDate;
     }
 
     public long getId() {
@@ -50,5 +55,21 @@ public class DateTimeModel {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public ZonedDateTime getZonedDateTime() {
+        return zonedDateTime;
+    }
+
+    public void setZonedDateTime(ZonedDateTime zonedDateTime) {
+        this.zonedDateTime = zonedDateTime;
+    }
+
+    public java.sql.Date getSqlDate() {
+        return sqlDate;
+    }
+
+    public void setSqlDate(java.sql.Date sqlDate) {
+        this.sqlDate = sqlDate;
     }
 }
