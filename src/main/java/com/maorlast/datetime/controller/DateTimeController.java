@@ -55,6 +55,7 @@ public final class DateTimeController {
         return dateTimeService.getAllDateTimeModels();
     }
 
+    // i.e http://localhost:8080/api/zoneddatetime?zoneddatetime=2015-09-26T01:30:00+01:00
     @RequestMapping(value = "/zoneddatetime", method = RequestMethod.POST)
     public void processZonedDateTime(@RequestParam("zoneddatetime") ZonedDateTime dateAndTime) {
         LOGGER.info("Processing zoned date and time: {}", dateAndTime);
